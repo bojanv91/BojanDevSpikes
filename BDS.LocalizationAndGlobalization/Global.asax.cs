@@ -17,7 +17,19 @@ namespace BDS.LocalizationAndGlobalization
             // Code that runs on application startup
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);            
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Application_BeginRequest()
+        {
+            HttpCookie cookie = Request.Cookies["lang"];
+            string cultureValue = "de";    //default
+
+            if (cookie != null)
+                cultureValue = cookie.Value;
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.GetCultureInfo(cultureValue);
+            System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(cultureValue);
         }
     }
 }

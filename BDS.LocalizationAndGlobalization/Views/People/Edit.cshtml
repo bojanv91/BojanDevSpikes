@@ -1,0 +1,78 @@
+﻿@model BDS.LocalizationAndGlobalization.Models.EditPersonModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+@{
+    //TODO: Needs refactoring in some later improvements from the showcase
+    string twoLetterISOLangName = HttpUtility.HtmlAttributeEncode(System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
+    string acceptLanguage = HttpUtility.HtmlAttributeEncode(System.Threading.Thread.CurrentThread.CurrentUICulture.ToString());
+
+    string jqueryDateFormat = System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern.ToLowerInvariant();
+    jqueryDateFormat = jqueryDateFormat.Replace("yy", "y"); //if found 4 yyyy, make them 2 as jquery requires
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="ie8" lang="@twoLetterISOLangName"> <![endif]-->
+<!--[if IE 9]> <html class="ie9" lang="@twoLetterISOLangName"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="@twoLetterISOLangName">
+<head>
+    <meta name="appconfig-jquery-dateformat" content="@jqueryDateFormat" />
+
+    <meta name="accept-language" content="@acceptLanguage" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title></title>
+
+    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Edit</h2>
+
+    <form action="@Url.Action("Edit", "People")" method="post">
+        <label>Name</label>
+        <input type="text" name="Name" value="@Model.Name" />
+
+        <br />
+
+        <label>Birth date</label>
+        <input data-component-type="date" type="text" name="BirthDate" value="@Model.BirthDate.ToShortDateString()" />
+        <span>current: @Model.BirthDate.ToShortDateString()</span>
+
+        <br />
+
+        <label>Salary</label>
+        <input type="text" name="Salary" value="@Model.Salary" />
+        <span>current: @Model.Salary</span>
+
+        <br />
+
+        <button type="submit">Save</button>
+    </form>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.11.3.js"></script>
+    <script>
+        $(function () {
+            //jQuery configurations specifics
+            var acceptLanguage = $("meta[name='accept-language']").attr("content");
+            var dateShortFormat = $("meta[name='appconfig-jquery-dateformat']").attr("content");
+
+            //Set jquery datepicker defaults
+            $.datepicker.setDefaults({
+                dateFormat: dateShortFormat
+            });
+
+            //
+            //
+            //
+            //
+            //application context
+            $("[data-component-type=date]").datepicker();
+        });
+    </script>
+</body>
+</html>
