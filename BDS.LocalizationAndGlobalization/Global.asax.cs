@@ -23,7 +23,7 @@ namespace BDS.LocalizationAndGlobalization
         protected void Application_BeginRequest()
         {
             HttpCookie cookie = Request.Cookies["lang"];
-            string cultureValue = "de";    //default
+            string cultureValue = "mk";    //default
 
             if (cookie != null)
                 cultureValue = cookie.Value;
