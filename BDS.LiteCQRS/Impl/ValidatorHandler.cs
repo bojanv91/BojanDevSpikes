@@ -7,17 +7,17 @@ using MediatR;
 
 namespace BDS.LiteCQRS.Impl
 {
-    public class ValidatorHandler<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
+    public class ValidatorHandler<TRequest, TResponse> : IAsyncRequestHandler<TRequest, TResponse>
+        where TRequest : IAsyncRequest<TResponse>
     {
-        private readonly IRequestHandler<TRequest, TResponse> _inner;
+        private readonly IAsyncRequestHandler<TRequest, TResponse> _inner;
 
-        public ValidatorHandler(IRequestHandler<TRequest, TResponse> inner)
+        public ValidatorHandler(IAsyncRequestHandler<TRequest, TResponse> inner)
         {
             _inner = inner;
         }
 
-        public TResponse Handle(TRequest message)
+        public Task<TResponse> Handle(TRequest message)
         {
             return _inner.Handle(message);
         }

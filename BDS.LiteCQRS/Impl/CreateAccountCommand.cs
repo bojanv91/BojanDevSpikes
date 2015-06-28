@@ -7,7 +7,7 @@ using MediatR;
 
 namespace BDS.LiteCQRS.Impl
 {
-    public class CreateAccountCommand : IRequest<int>
+    public class CreateAccountCommand : IAsyncRequest<int>
     {
         public string FullName { get; set; }
 

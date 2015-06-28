@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BDS.LiteCQRS.Impl;
 using MediatR;
 using Microsoft.Practices.ServiceLocation;
 using StructureMap;
@@ -26,20 +27,22 @@ namespace BDS.LiteCQRS
                     scanner.TheCallingAssembly();
                     scanner.WithDefaultConventions();
 
-                    scanner.AddAllTypesOf(typeof(IRequestHandler<,>));
+                    scanner.AddAllTypesOf(typeof(IAsyncRequestHandler<,>));
                 });
+
+                //cfg.For(typeof(IAsyncRequestHandler<,>))
+                //    .DecorateAllWith(typeof(ValidatorHandler<,>));
+
+                cfg.For<IMediator>().Use<Mediator>().Singleton();
 
                 cfg.For<Microsoft.Practices.ServiceLocation.ServiceLocatorProvider>()
                     .Use(serviceLocationProvider)
                     .Singleton();
-
-                cfg.For<IMediator>().Use<Mediator>().Singleton();
-
-                //var handlerType = cfg.For(typeof(IRequestHandler<,>));
-                //handlerType.DecorateAllWith(typeof(ValidatorHandler<,>));
             });
 
             Microsoft.Practices.ServiceLocation.ServiceLocator.SetLocatorProvider(serviceLocationProvider);
+
+            string whatdoihave = _container.WhatDoIHave();
         }
     }
 }

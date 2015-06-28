@@ -20,9 +20,11 @@ namespace BDS.LiteCQRS
         [Fact]
         public void ShouldResolve()
         {
+            var handler = ServiceLocator.Current.GetInstance<IAsyncRequestHandler<CreateAccountCommand, int>>();
+
             var mediator = ServiceLocator.Current.GetInstance<IMediator>();
-            var response = mediator.Send(new CreateAccountCommand());
-            Assert.Equal(5, response);
+            var asyncResponse = mediator.SendAsync(new CreateAccountCommand());
+            Assert.Equal(5, asyncResponse.Result);
         }
     }
 }

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 
 namespace BDS.LiteCQRS.Impl
 {
-    public class CreateAccountHandler : IBaseHandler<CreateAccountCommand, int>
+    public class CreateAccountHandler : IAsyncRequestHandler<CreateAccountCommand, int> //IBaseHandler<CreateAccountCommand, int>
     {
-        public int Handle(CreateAccountCommand message)
+        public Task<int> Handle(CreateAccountCommand message)
         {
-            return 5;
+            return Task.FromResult(5);
         }
     }
 }
